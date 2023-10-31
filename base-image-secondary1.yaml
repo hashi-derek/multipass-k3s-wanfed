@@ -1,0 +1,14 @@
+runcmd:
+  # INSTALL_K3S_VERSION=v1.24.7+k3s1 for Consul-K8S <=0.49.0 compatibility
+  - curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.24.7+k3s1 INSTALL_K3S_EXEC='server --flannel-backend=host-gw --cluster-cidr=10.46.0.0/16' sh -s -
+  - mkdir -p /home/ubuntu/.kube/
+  - cp /etc/rancher/k3s/k3s.yaml /home/ubuntu/.kube/config
+  - chown ubuntu:ubuntu /home/ubuntu/.kube/config
+  - k3s completion bash > /etc/bash_completion.d/k3s
+  - echo "export KUBECONFIG=/home/ubuntu/.kube/config" | tee -a /home/ubuntu/.profile
+  - echo "alias k=\'kubectl\'" | tee -a /home/ubuntu/.profile
+
+  - curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash 
+  - helm completion bash > /etc/bash_completion.d/helm
+
+  - kubectl completion bash > /etc/bash_completion.d/kubectl
